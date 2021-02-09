@@ -1,0 +1,28 @@
+﻿<button @onkeyup="HandleKeyUp">
+    Test Button
+</button>
+
+@code {
+    [Inject] protected IJSRuntime jsRuntime { get; set; }
+    private IJSObjectReference jsModule;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        jsModule = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/HeadlessUI/common.js");
+        await jsModule.InvokeVoidAsync("preventDefaultKeyBehaviorOnKeys", new List<string> { "Enter", " " });
+    }
+
+    [JSInvokable]
+    public async Task HandleKeyUp(KeyboardEventArgs eventArgs)
+    {
+        switch (eventArgs.Key)
+        {
+            case " ":
+            case "Enter":
+                {
+                    Console.WriteLine(eventArgs.Key);
+                    break;
+                }
+        }
+    }
+}
