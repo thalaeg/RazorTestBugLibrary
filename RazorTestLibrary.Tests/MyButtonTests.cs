@@ -17,7 +17,7 @@ namespace RazorTestLibrary.Tests
         private IRenderedComponent<MyButton> SetupButtonComponent()
         {
             var jsModule = JSInterop.SetupModule("import", new string[] { "./_content/HeadlessUI/common.js" });
-            jsModule.SetupVoid().SetVoidResult();
+            jsModule.SetupVoid("preventDefaultKeyBehaviorOnKeys").SetVoidResult();
             return RenderComponent<MyButton>();
         }
 
